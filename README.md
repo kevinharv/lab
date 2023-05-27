@@ -1,10 +1,10 @@
 # To-Do
 1. Define provision/administer/decom procedures
-1. ~~~Update DNS records~~~
+1. ~Update DNS records~
 1. Add metadata to Ansible playbooks
 1. Re-do storage allocation/assignment (iSCSI? NFS mounts?)
-1. ~~~Migrate all FS01 content to desktop~~~
-1. ~~~DECOM everything except prddock1~~~
+1. ~Migrate all FS01 content to desktop~
+1. ~DECOM everything except prddock1~
 1. Build new Domain Controller
     1. Create users and groups
     1. Join to free AAD environment
