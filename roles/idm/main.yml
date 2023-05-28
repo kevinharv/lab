@@ -1,0 +1,12 @@
+---
+
+# Install and configure IPA server
+
+- name: Build IdM/AD Trust
+  ipatrust:
+    ipaadmin_password: "{{ ipa_admin_password }}"
+    realm: "{{ realm }}"
+    admin: "{{ ad_admin_user }}"
+    password: "{{ ad_admin_password }}"
+    range_type: ipa-ad-trust-posix
+    state: present

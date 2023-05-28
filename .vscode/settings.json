@@ -1,3 +1,9 @@
 {
-    "ansible.python.interpreterPath": "c:\\Program Files\\Python311\\python.exe"
+    "ansible.python.interpreterPath": "c:\\Program Files\\Python311\\python.exe",
+    "yaml.schemas": {
+        "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/tasks": [
+            "file:///home/kevin/Documents/lab/roles/idm/main.yml",
+            "file:///home/kevin/Documents/lab/main.yml"
+        ]
+    }
 }
