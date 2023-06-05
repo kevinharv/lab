@@ -29,3 +29,29 @@ This document holds a step by step account of the procedures followed and action
 1. Create forest and domain
 1. Create OUs, users
 1. Join to AAD
+
+# System Configuration
+- Set NTP
+- Set Hostname
+- Set DNS
+    - Copy template /etc/resolv.conf
+- Additional network configuration?
+- Join Satellite server
+- Set subscriptions?
+- Enable repos
+- Install packages
+    - Common system packages
+    - Packages required for configuration of system (sssd, kerberos, Puppet, Zabbix, etc.)
+    - Application specific packages
+- Set Message of the Day (/etc/motd)
+- Set pre-auth banner (/etc/banner)
+- Configure SSHD (set banner)
+- Set SELinux enforcing
+- Set SNMP
+- Set remote syslog server
+- IdM/Domain join system
+- Install monitoring agent
+- Install service/application
+
+## Common Packages
+- Zabbix
