@@ -1,0 +1,8 @@
+---
+- name: Update Kernel - DEB
+
+- name: Update Kernel - RPM
+
+- name: Update Packages
+
+- name: Reboot (if required)

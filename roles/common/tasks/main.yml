@@ -1,2 +1,28 @@
 ---
 # tasks file for common
+- name: Set SELinux Targeted Enforcing
+
+- name: Set Hostname
+
+- name: Configure DNS
+  # Use systemd resolvectl?
+
+- name: Set NTP
+
+- name: Join Satellite Server
+
+- name: Attach Subscriptions?
+
+- name: Install Common Packages
+
+- name: Join Domain/IdM Environment
+
+- name: Set Message of the Day (/etc/motd)
+
+- name: Set Pre-Authentication Banner (/etc/banner)
+
+- name: Configure SSHD
+
+- name: Configure Syslog Forwarding
+
+- name: Configure SNMP
