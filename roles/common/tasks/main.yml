@@ -1,11 +1,17 @@
 ---
 # tasks file for common
 - name: Set SELinux Targeted Enforcing
+  ansible.posix.selinux:
+    policy: targeted
+    state: enforcing
 
 - name: Set Hostname
+  ansible.builtin.hostname:
+    name: "{{ hostname }}"
 
 - name: Configure DNS
-  # Use systemd resolvectl?
+  ansible.builtin.template:
+      
 
 - name: Set NTP
 
