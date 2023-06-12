@@ -1,0 +1,7 @@
+all:
+  hosts:
+    satellite1:
+      ansible_host: 192.168.1.14
+      ansible_user: kevin
+      ansible_password: "{{ satellite1_become_pass }}"
+      ansible_become_password: "{{ satellite1_become_pass }}"

@@ -1,5 +1,4 @@
 ---
-# tasks file for common
 - name: Set SELinux Targeted Enforcing
   ansible.posix.selinux:
     policy: targeted
@@ -9,26 +8,106 @@
   ansible.builtin.hostname:
     name: "{{ hostname }}"
 
+- name: Disable NetworkManager DNS Management
+  community.general.ini_file:
+    path: /etc/NetworkManager/NetworkManager.conf
+    state: present
+    no_extra_spaces: true
+    section: main
+    option: DNS
+    value: none
+    owner: root
+    group: root
+    mode: 0644
+    backup: true
+  notify: restart-network
+
 - name: Configure DNS
   ansible.builtin.template:
-      
+    src: templates/resolv.conf.j2
+    dest: /etc/resolv.conf
+    owner: root
+    group: root
+    mode: 0644
+    backup: true
+  notify: restart-network
 
-- name: Set NTP
+- name: Configure Hosts
+  ansible.builtin.template:
+    src: templates/hosts.j2
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: 0644
+    backup: true
+  notify: restart-network
 
-- name: Join Satellite Server
-
-- name: Attach Subscriptions?
+# - name: Set NTP
 
 - name: Install Common Packages
-
-- name: Join Domain/IdM Environment
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ common_packages }}"
 
 - name: Set Message of the Day (/etc/motd)
+  ansible.builtin.template:
+    src: templates/motd.j2
+    dest: /etc/motd
+    owner: root
+    group: root
+    mode: 0644
+    backup: false
 
 - name: Set Pre-Authentication Banner (/etc/banner)
+  ansible.builtin.template:
+    src: templates/banner.j2
+    dest: /etc/banner
+    owner: root
+    group: root
+    mode: 0644
+    backup: false
 
 - name: Configure SSHD
+  ansible.builtin.template:
+    src: templates/sshd_config.j2
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: 0644
+    backup: true
+  notify: restart-sshd
 
-- name: Configure Syslog Forwarding
+- name: Configure bashrc
+  ansible.builtin.template:
+    src: templates/bashrc.j2
+    dest: /etc/bashrc
+    owner: root
+    group: root
+    mode: 0644
+    backup: true
 
-- name: Configure SNMP
+# - name: Configure Syslog Forwarding
+
+# - name: Configure SNMP
+
+- name: Set SELinux Targeted Permissive (Cert Issues with IPA)
+  ansible.posix.selinux:
+    policy: targeted
+    state: permissive
+
+- name: Join Domain/IdM Environment
+  ansible.builtin.include_role:
+    name: freeipa.ansible_freeipa.ipaclient
+  vars:
+    ipaclient_domain: "{{ ipa_domain }}"
+    ipaclient_realm: "{{ ipa_realm }}"
+    ipaclient_mkhomedir: true
+    ipadmin_principle: "{{ ipa_admin }}"
+    ipaadmin_password: "{{ ipa_admin_pass }}"
+    ipaclient_servers: "{{ ipa_server }}"
+
+- name: Set SELinux Targeted Enforcing
+  ansible.posix.selinux:
+    policy: targeted
+    state: enforcing

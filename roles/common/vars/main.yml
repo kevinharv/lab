@@ -1,2 +1,11 @@
 ---
-# vars file for common
+ns1: 192.168.1.12
+ns2: 192.168.1.10
+ns3: 1.1.1.1
+common_packages:
+  - vim
+ipa_domain: idm.kevharv.com
+ipa_realm: IDM.KEVHARV.COM
+ipa_server: prdidm1.idm.kevharv.com
+ipa_admin: ipasvcacct
+ipa_admin_pass: "{{ vault_ipa_admin_pass }}"

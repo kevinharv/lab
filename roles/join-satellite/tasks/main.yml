@@ -1,0 +1,6 @@
+---
+# tasks file for join-satellite
+
+- name: Join Satellite Server
+
+- name: Attach Subscriptions?

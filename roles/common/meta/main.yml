@@ -23,4 +23,6 @@ galaxy_info:
 
   galaxy_tags: ["homelab", "common", "rhel"]
 
-dependencies: []
+dependencies:
+  # - src: ansible.posix
+  # - src: freeipa.ansible_freeipa

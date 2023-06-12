@@ -1,6 +1,6 @@
 ---
 - name: Configure Homelab Linux System
-  hosts: all
+  hosts: satellite1
   become: true
 
   vars_files:
@@ -12,3 +12,9 @@
         name: common
       tags:
         - common
+
+    - name: Deploy Satellite
+      ansible.builtin.include_role:
+        name: deploy-satellite
+      tags:
+        - deploy-satellite
