@@ -87,27 +87,32 @@
     mode: 0644
     backup: true
 
+- name: Flush Handlers
+  meta: flush_handlers
+
 # - name: Configure Syslog Forwarding
 
 # - name: Configure SNMP
+- block:
+  - name: Set SELinux Targeted Permissive (Cert Issues with IPA)
+    ansible.posix.selinux:
+      policy: targeted
+      state: permissive
 
-- name: Set SELinux Targeted Permissive (Cert Issues with IPA)
-  ansible.posix.selinux:
-    policy: targeted
-    state: permissive
+  - name: Join Domain/IdM Environment
+    ansible.builtin.include_role:
+      name: freeipa.ansible_freeipa.ipaclient
+    vars:
+      ipaclient_domain: "{{ ipa_domain }}"
+      ipaclient_realm: "{{ ipa_realm }}"
+      ipaclient_mkhomedir: true
+      ipadmin_principle: "{{ ipa_admin }}"
+      ipaadmin_password: "{{ ipa_admin_pass }}"
+      ipaclient_servers: "{{ ipa_server }}"
 
-- name: Join Domain/IdM Environment
-  ansible.builtin.include_role:
-    name: freeipa.ansible_freeipa.ipaclient
-  vars:
-    ipaclient_domain: "{{ ipa_domain }}"
-    ipaclient_realm: "{{ ipa_realm }}"
-    ipaclient_mkhomedir: true
-    ipadmin_principle: "{{ ipa_admin }}"
-    ipaadmin_password: "{{ ipa_admin_pass }}"
-    ipaclient_servers: "{{ ipa_server }}"
-
-- name: Set SELinux Targeted Enforcing
-  ansible.posix.selinux:
-    policy: targeted
-    state: enforcing
+  - name: Set SELinux Targeted Enforcing
+    ansible.posix.selinux:
+      policy: targeted
+      state: enforcing
+  
+  # when: 
