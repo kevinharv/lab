@@ -1,0 +1,42 @@
+---
+- name: Patch Homelab Systems
+  hosts: all
+  become: true
+  gather_facts: true
+
+  vars:
+    reboot_after: false
+    shutdown_after: false
+
+  tasks:
+    - name: Update RedHat Family Kernels
+      ansible.builtin.dnf:
+        name: kernel
+        state: latest
+      when: ansible_os_family == RedHat
+
+    - name: Update Debian Family Kernels
+      ansible.builtin.apt:
+        name: kernel
+        state: latest
+      when: ansible_os_family == Debian
+
+    - name: Update All Packages
+      ansible.builtin.package:
+        name: "*"
+        state: latest
+
+    - name: Check for Reboot Request
+      ansible.builtin.stat:
+        path: /var/run/reboot-required
+      register: reboot_required
+
+    - name: Reboot Systems
+      ansible.builtin.reboot:
+        reboot_timeout: 300
+      when: reboot_after == true and reboot_required.stat.exists
+
+    - name: Shutdown Systems
+      community.general.shutdown:
+        delay: 30
+      when: shutdown_after == true

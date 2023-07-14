@@ -1,5 +1,15 @@
 all:
   hosts:
+    prddock1:
+      ansible_host: 192.168.1.27
+      ansible_user: kevin
+      ansible_password: "{{ prddock1_become_pass }}"
+      ansible_become_password: "{{ prddock1_become_pass }}"
+    prdidm1:
+      ansible_host: 192.168.1.12
+      ansible_user: kevin
+      ansible_password: "{{ prdidm1_become_pass }}"
+      ansible_become_password: "{{ prdidm1_become_pass }}"
     satellite1:
       ansible_host: 192.168.1.14
       ansible_user: kevin
