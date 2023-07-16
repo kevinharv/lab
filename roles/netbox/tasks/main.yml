@@ -1,0 +1,25 @@
+---
+- name: Install PostgreSQL
+  ansible.builtin.include_tasks:
+    file: postgres.yml
+  become: true
+
+- name: Install Redis
+  ansible.builtin.include_tasks:
+    file: redis.yml
+  become: true
+
+- name: Install Netbox
+  ansible.builtin.include_tasks:
+    file: netbox.yml
+  become: true
+
+- name: Configure Gunicorn/systemd
+  ansible.builtin.include_tasks:
+    file: gunicorn.yml
+  become: true
+
+- name: Install and Configure NGINX
+  ansible.builtin.include_tasks:
+    file: http.yml
+  become: true

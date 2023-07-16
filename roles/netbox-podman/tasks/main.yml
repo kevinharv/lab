@@ -1,0 +1,35 @@
+---
+- name: Create /opt/netbox
+  ansible.builtin.file:
+    path: /opt/netbox
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Clone netbox-docker Git Repository
+  ansible.builtin.git:
+    repo: https://github.com/netbox-community/netbox-docker.git
+    dest: /opt/netbox
+    update: no
+
+- name: Copy Docker Compose Override from Template
+  ansible.builtin.template:
+    src: templates/docker-compose.override.yml.j2
+    dest: /opt/netbox/docker-compose.override.yml
+    owner: root
+    group: root
+    mode: 0644
+
+# Set ownership and permissions?
+
+- name: Install Podman Packages
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ podman_packages }}"
+
+- name: Install podman-compose Package
+  ansible.builtin.pip:
+    name: podman-compose
+    state: present

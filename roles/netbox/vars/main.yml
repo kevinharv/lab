@@ -1,0 +1,14 @@
+---
+netbox_version: v3.5.6
+netbox_allowed_hosts: "['*']"
+netbox_secret_key: "{{ vault_netbox_secret_key }}"
+postgres_netbox_password: "{{ vault_postgres_netbox_password }}"
+netbox_packages:
+  - gcc
+  - libxml2-devel
+  - libxslt-devel
+  - libffi-devel
+  - libpq-devel
+  - openssl-devel
+  - redhat-rpm-config
+  - git

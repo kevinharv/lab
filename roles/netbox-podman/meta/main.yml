@@ -1,6 +1,6 @@
 galaxy_info:
   author: Kevin Harvey
-  description: Common configuration role for my homelab systems.
+  description: Prepares system for deployment of Netbox on Podman.
 
   license: license (GPL-2.0-or-later, MIT, etc)
 
@@ -21,4 +21,4 @@ galaxy_info:
     - "8"
     - "9"
 
-  galaxy_tags: ["homelab", "common", "rhel"]
+  galaxy_tags: ["homelab", "podman", "netbox", "rhel"]

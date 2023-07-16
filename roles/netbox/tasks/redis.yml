@@ -1,0 +1,13 @@
+---
+- name: Install Redis Package(s)
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - redis
+
+- name: Start Redis Service
+  ansible.builtin.systemd:
+    name: redis
+    state: started
+    enabled: true

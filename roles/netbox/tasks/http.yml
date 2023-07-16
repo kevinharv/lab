@@ -1,0 +1,50 @@
+---
+- name: Copy NetBox SSL Key
+  ansible.builtin.copy:
+    src: files/netbox.key
+    dest: /etc/ssl/private/netbox.key
+    owner: root
+    group: root
+    mode: 0600
+    remote_src: true
+
+- name: Copy NetBox SSL Certificate
+  ansible.builtin.copy:
+    src: files/netbox.crt
+    dest: /etc/ssl/certs/netbox.crt
+    owner: root
+    group: root
+    mode: 0600
+    remote_src: true
+
+- name: Install NGINX
+  ansible.builtin.package:
+    name: nginx
+    state: present
+
+- name: Copy NGINX Configuration
+  ansible.builtin.copy:
+    src: /opt/netbox/contrib/nginx.conf
+    dest: /etc/nginx/sites-available/netbox
+
+- name: Delete Default NGINX Site
+  ansible.builtin.file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: Link NetBox Site
+  ansible.builtin.file:
+    src: /etc/nginx/sites-available/netbox
+    dest: /etc/nginx/sites-enabled/netbox
+    state: link
+
+- name: Restart NGINX Service
+  ansible.builtin.systemd:
+    name: nginx
+    state: restarted
+
+- name: Configure Firewall
+  ansible.posix.firewalld:
+    port: 8000/tcp
+    state: enabled
+    permanent: true

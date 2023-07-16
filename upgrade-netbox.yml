@@ -1,0 +1,13 @@
+---
+- name: Upgrade Netbox Deployment
+  hosts: netbox1
+  become: true
+  gather_facts: true
+
+  vars:
+    foo: bar
+
+  tasks:
+  - name: Do a thing
+    ansible.builtin.debug:
+      msg: Hi

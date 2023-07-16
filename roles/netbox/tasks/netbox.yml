@@ -1,0 +1,59 @@
+---
+- name: Install NetBox Packages
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ netbox_packages }}"
+
+- name: Create NetBox Service Account Group
+  ansible.builtin.group:
+    name: netbox
+    state: present
+
+- name: Create NetBox Service Account User
+  ansible.builtin.user:
+    name: netbox
+    group: netbox
+    state: present
+
+- name: Download NetBox Release
+  ansible.builtin.get_url:
+    url: https://github.com/netbox-community/netbox/archive/refs/tags/v{{ netbox_version }}.tar.gz
+    dest: /tmp/netbox-{{ netbox_version }}.tar.gz
+    owner: netbox
+    group: netbox
+
+- name: Extract NetBox Release
+  ansible.builtin.unarchive:
+    src: /tmp/netbox-{{ netbox_version }}.tar.gz
+    dest: /opt
+    owner: netbox
+    group: netbox
+
+- name: Link /opt/netbox-{{ netbox_version }} to /opt/netbox
+  ansible.builtin.file:
+    src: /opt/netbox-{{ netbox_version }}
+    dest: /opt/netbox
+    state: link
+    owner: netbox
+    group: netbox
+
+- name: Copy Configuration File
+  ansible.builtin.template:
+    src: configuration.py.j2
+    dest: /opt/netbox/netbox/netbox/configuration.py
+    owner: netbox
+    group: netbox
+
+- name: Execute Installation Script
+  ansible.builtin.command:
+    cmd: /opt/netbox/upgrade.sh
+  become: true
+
+# Create NetBox Administrator
+
+- name: Schedule Houskeeping Task
+  ansible.builtin.file:
+    src: /opt/netbox/contrib/netbox-housekeeping.sh
+    dest: /etc/cron.daily/netbox-housekeeping
+    state: link

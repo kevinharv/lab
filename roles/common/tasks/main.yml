@@ -93,6 +93,8 @@
 # - name: Configure Syslog Forwarding
 
 # - name: Configure SNMP
+
+
 - block:
   - name: Set SELinux Targeted Permissive (Cert Issues with IPA)
     ansible.posix.selinux:

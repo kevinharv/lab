@@ -1,0 +1,22 @@
+---
+- name: Copy Gunicorn Configuration
+  ansible.builtin.copy:
+    src: /opt/netbox/contrib/gunicorn.py
+    dest: /opt/netbox/gunicorn.py
+    owner: netbox
+    group: netbox
+
+- name: Copy systemd Service Files
+  ansible.builtin.copy:
+    src: /opt/netbox/contrib/*.service
+    dest: /etc/systemd/system/
+
+- name: Start NetBox Service(s)
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+    daemon_reload: true
+  loop:
+    - netbox
+    - netbox-rq
