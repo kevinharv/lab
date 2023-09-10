@@ -28,8 +28,8 @@ all:
     file1:
       ansible_host: 192.168.1.21
       ansible_user: kevin
-      ansible_password: "{{ ovpn_become_pass }}"
-      ansible_become_password: "{{ ovpn_become_pass }}"
+      ansible_password: "{{ file1_become_pass }}"
+      ansible_become_password: "{{ file1_become_pass }}"
     ovpn:
       ansible_host: 192.168.1.22
       ansible_user: kevin
