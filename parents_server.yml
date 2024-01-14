@@ -1,0 +1,80 @@
+---
+# Parents Home Server Configuration
+#
+# Application server(s) for media and home surveillance system.
+#
+# Applications:
+#   - Jellyfin Media Server
+#   - Surveillance Software
+#
+# Installation Actions
+# - Install OS (RHEL/Rocky 9)
+# - Configure Networking
+# - Configure physical/virtual drives (create LVMs, FS)
+# - Create root user
+# - Install Ansible
+
+- name: Configure Jellyfin/Surveillance
+  hosts: TBD
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Configure SELinux Targeted Enforcing
+      ansible.posix.selinux:
+        policy: targeted
+        state: enforcing
+    
+    - name: Configure Jellyfin Server Hostname
+      ansible.builtin.hostname:
+        name: prdjelly1
+      when: ansible_host == prdjelly1
+    
+    - name: Configure Surveillance Server Hostname
+      ansible.builtin.hostname:
+        name: prdzm1
+      when: ansible_host == prdzm1
+
+    - name: Patch Installed Packages
+      ansible.builtin.package:
+        name: "*"
+        state: latest
+
+    - name: Update Kernel
+      ansible.builtin.package:
+        name: "kernel"
+        state: latest
+
+    - name: Install Common Packages
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - vim
+        - git
+
+    - name: Install Docker
+
+    - name: Set Message of the Day (MOTD)
+
+    - name: Set SSH Pre-Authentication Banner
+
+    - name: Configure SSHD
+
+    - name: Configure .bashrc
+
+    - name: Configure User(s)
+
+    - name: Deploy Jellyfin
+      when: ansible_host == prdjelly1
+      # Create file paths
+      # Copy Docker Compose config
+      # Pull images
+      # Bring up stack
+
+    - name: Deploy ZoneMinder
+      when: ansible_host == prdzm1
+      # Create file paths
+      # Copy Docker Compose config
+      # Pull images
+      # Bring up stack
